@@ -787,8 +787,9 @@ class NoDefBinaryConversion(Conversion):
                 raise DropPacket("Invalid size value, must be a multiple of eight")
 
             length = int(ceil(size / 8))
-            if not length == len(data) - offset:
-                raise DropPacket("Invalid number of bytes available")
+            # There might be more payload for other communities
+            if length > len(data) - offset:
+                raise DropPacket("Invalid number of bytes available, length=%d, len(data)=%d - offset %d" % (length, len(data), offset))
 
             bloom_filter = BloomFilter(data[offset:offset + length], functions, prefix=prefix)
             offset += length
