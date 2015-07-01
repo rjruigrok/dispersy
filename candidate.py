@@ -27,7 +27,7 @@ assert isinstance(CANDIDATE_LIFETIME, float)
 class Candidate(object):
 
     def __init__(self, sock_addr, tunnel):
-        assert self.is_valid_address(sock_addr), sock_addr
+        assert self.is_valid_address(sock_addr) or sock_addr == ('0.0.0.0', 0), sock_addr
         assert isinstance(tunnel, bool), type(tunnel)
         super(Candidate, self).__init__()
         self._logger = logging.getLogger(self.__class__.__name__)
